@@ -1,11 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="Coockie.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
+        <div class="left-side">
+            <div class="upgrades"> 
+                <button id="cursor-upgrade">🧁</button>
+                <button id="grandma-upgrade">🍰</button>
+                <button id="farm-upgrade">🍫</button>
+                <button id="mine-upgrade">🍩</button>
+                <button id="factory-upgrade">🍨</button>
+                <button id="bank-upgrade">🍡</button>
+                <button id="temple-upgrade">🍮</button>
+                <button id="spaceship-upgrade">🎂</button>
+            </div>
+            <div class="autoclickers">
+                <button id="cursor" data-name="Cursor">Cursor</button>
+                <button id="grandma" data-name="Grandma">Grandma</button>
+                <button id="farm" data-name="Farm">Farm</button>
+                <button id="mine" data-name="Mine">Mine</button>
+                <button id="factory" data-name="Factory">Factory</button>
+                <button id="bank" data-name="Bank">Bank</button>
+                <button id="temple" data-name="Temple">Temple</button>
+                <button id="spaceship" data-name="Spaceship">Spaceship</button>
+            </div>
+        </div>
+        <div class="center">
+            <!-- player-profile verplaatst naar rechts -->
+            <div class="score-display">
+                <div id="cookie-count">0</div>
+                <div class="score-label">cookies</div>
+                <div id="cookies-per-second">0</div>
+                <div class="cps-label">per second</div>
+            </div>
+            <img src="../img/cookie.png" alt="cookie" class="cookie">
+           
+            <div class="drinks-challenge">
+                <button id="drink-coffee" class="drink-btn coffee" title="Activate Coffee Challenge">☕ Coffee</button>
+                <button id="drink-tea" class="drink-btn tea" title="Activate Tea Challenge">🍵 Tea</button>
+                <button id="drink-milk" class="drink-btn milk" title="Activate Milk Challenge">🥛 Milk</button>
+            </div>
+           
+        </div>
+        <div class="right-side">
+            <div id="hearts-bg" style="position: absolute; inset: 0; z-index: 0; pointer-events: none;"></div>
+            <div class="player-profile" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 24px 0 20px 0; position: relative; z-index: 2;">
+                <button id="player-emoji-btn" style="font-size: 3.2rem; background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">👤</button>
+                <input type="text" id="player-name" placeholder="Player Name" style="font-size: 1.1rem; text-align: center; border-radius: 8px; border: none; background: #e7bc91; color: #5d4e37; padding: 4px 12px; width: 140px;">
+                <div id="emoji-picker" style="display: none; flex-direction: row; gap: 6px; margin-top: 4px;">
+                    <button class="emoji-choice" data-emoji="🧕🏼" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">🧕🏼</button>
+                    <button class="emoji-choice" data-emoji="🧕🏾" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">🧕🏾</button>
+                    <button class="emoji-choice" data-emoji="👩🏼" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👩🏼</button>
+                    <button class="emoji-choice" data-emoji="👩🏻" style="font-size: 2.5em;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👩🏻</button>
+                    <button class="emoji-choice" data-emoji="👩🏽" style="font-size: 2.5em;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👩🏽</button>
+                    <button class="emoji-choice" data-emoji="👨🏼" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👨🏼</button>
+                    <button class="emoji-choice" data-emoji="🧑🏻" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">🧑🏻</button>
+                    <button class="emoji-choice" data-emoji="👨🏾" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👨🏾</button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
     
+    <div id="game-tooltip"></div>
+    
+    <script src="Coockie.js"></script>
+        <script>
+        function createFallingBalls() {
+            const ball = document.createElement('div');
+            ball.textContent = '🟤';
+            ball.className = 'falling-ball';
+            const heartsBg = document.getElementById('hearts-bg');
+            let w = heartsBg.offsetWidth;
+            if (!w || w < 200) w = 300;
+            const leftPx = Math.random() * (w - 40);
+            ball.style.left = leftPx + 'px';
+            ball.style.top = '-40px';
+            ball.style.position = 'absolute';
+            ball.style.fontSize = (Math.random() * 0.7 + 1.1) + 'rem';
+            ball.style.opacity = '1';
+            ball.style.pointerEvents = 'none';
+            return ball;
+        }
+
+        function animateFallingBalls() {
+            const heartsBg = document.getElementById('hearts-bg');
+            if (!heartsBg) return;
+
+            const ball = createFallingBalls();
+            heartsBg.appendChild(ball);
+         
+            setTimeout(() => {
+                ball.style.transition = 'top 3.5s linear';
+                ball.style.top = (heartsBg.offsetHeight - 40) + 'px';
+            }, 50);
+
+            setTimeout(() => ball.remove(), 4000);
+            setTimeout(animateFallingBalls, 400);
+        }
+        window.addEventListener('DOMContentLoaded', animateFallingBalls);
+
+        </script>
 </body>
 </html>
+

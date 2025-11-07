@@ -1,0 +1,580 @@
+/* Clean falling heart animation */
+.falling-heart {
+    position: absolute;
+    will-change: top, opacity;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(0.2px);
+    transition: top 3.5s linear, opacity 1.2s;
+}
+.floating-heart {
+    position: absolute;
+    will-change: transform;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(0.5px);
+}
+.right-side {
+    position: relative;
+    overflow: hidden;
+}
+
+#hearts-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Overlay for CPS boost and timeout */
+#cps-boost-overlay {
+    position: fixed;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e7bc91;
+    color: #5d4e37;
+    font-size: 1.7rem;
+    font-weight: bold;
+    padding: 12px 32px;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px #a9743a44;
+    z-index: 2147483647;
+    text-align: center;
+    pointer-events: none;
+}
+/* Drinks challenge knoppen */
+.drinks-challenge {
+    display: none;
+    gap: 12px;
+    justify-content: center;
+    margin: 18px 0;
+}
+.drink-btn {
+    font-size: 1.6rem;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #e7bc91;
+    color: #5d4e37;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+}
+.drink-btn.coffee { background: #c2b280; color: #fff; }
+.drink-btn.tea    { background: #8fbc8f; color: #fff; }
+.drink-btn.milk   { background: #fff; color: #b08968; border: 2px solid #b08968; }
+.drink-btn:hover  { filter: brightness(1.1); }
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #f3d5b5;
+}
+
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: visible;
+}
+
+.left-side, .center, .right-side {
+    width: 33.33%;
+    height: 100%;
+}
+
+.left-side {
+    background-color: #ffedd8;
+}
+.center {
+    background-color: #f3d5b5;
+    position: relative;
+}
+.right-side {
+    background-color: #e7bc91;
+}
+
+.upgrades {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 20px;
+    background: #ffedd8;
+    margin: 24px auto;
+    max-width: 90%;
+    overflow: visible;
+}
+
+.upgrades button {
+    border: none;
+    border-radius: 10px;
+    background: #f3d5b5;
+    padding: 12px;
+    font-size: 2rem;
+    cursor: grab;
+    box-shadow: none;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 50px;
+    width: 100%;
+}
+
+.upgrades button:hover:not(.disabled) {
+    background: #e7bc91;
+}
+
+.upgrades button.disabled {
+    background: #d3d3d3;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Tooltip container */
+#game-tooltip {
+    position: fixed;
+    background: #f3d5b5;
+    color: #5d4e37;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    z-index: 2147483647;
+    pointer-events: none;
+    white-space: pre-line;
+    text-align: center;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: none;
+    border: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    word-wrap: break-word;
+}
+
+/* Upgrade tooltips onder de button (pijl naar boven) */
+#game-tooltip.upgrade-tooltip-below::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+        left: var(--arrow-left, 50%);
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: #f3d5b5;
+    z-index: 1;
+}
+
+#game-tooltip.upgrade-tooltip-below::before {
+    /* verwijderd: dubbele pijl */
+}
+
+/* Upgrade tooltips boven de button (pijl naar beneden) */
+#game-tooltip.upgrade-tooltip-above::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+        left: var(--arrow-left, 50%);
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #f3d5b5;
+    z-index: 1;
+}
+
+#game-tooltip.upgrade-tooltip-above::before {
+    /* verwijderd: dubbele pijl */
+}
+
+/* Autoclicker tooltips rechts van de button (pijl naar links) */
+#game-tooltip.autoclicker-tooltip-right::after {
+    content: '';
+    position: absolute;
+    top: var(--arrow-top, 50%);
+    right: 100%;
+    transform: translateY(-50%);
+    border: 8px solid transparent;
+    border-right-color: #f3d5b5;
+    z-index: 1;
+}
+
+#game-tooltip.autoclicker-tooltip-right::before {
+    /* verwijderd: dubbele pijl */
+}
+
+/* Autoclicker tooltips links van de button (pijl naar rechts) */
+#game-tooltip.autoclicker-tooltip-left::after {
+    content: '';
+    position: absolute;
+    top: var(--arrow-top, 50%);
+    left: 100%;
+    transform: translateY(-50%);
+    border: 8px solid transparent;
+    border-left-color: #f3d5b5;
+    z-index: 1;
+}
+
+#game-tooltip.autoclicker-tooltip-left::before {
+    /* verwijderd: dubbele pijl */
+}
+
+.autoclickers {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    background: #ffedd8;
+    margin: 0 auto 24px auto;
+    max-width: 90%;
+    max-height: 65%;
+    overflow-y: auto;
+    /* Verberg scrollbar maar behoud functionaliteit */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer/Edge */
+}
+
+/* Verberg scrollbar voor WebKit browsers (Chrome, Safari) */
+.autoclickers::-webkit-scrollbar {
+    display: none;
+}
+
+.autoclickers button {
+    border: none;
+    border-radius: 10px;
+    background: #f3d5b5;
+    padding: 16px 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    cursor: grab;
+    box-shadow: none;
+    transition: background 0.2s;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+     font-weight: bold;
+     color: #5d4e37;
+}
+
+/* Maak emojis groter en beter zichtbaar */
+.autoclickers button::before {
+    content: '';
+    font-size: 2.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+
+/* Specifieke emoji content voor elke autoclicker */
+.autoclickers button[id="cursor"]::before { content: '👆🏼'; }
+.autoclickers button[id="grandma"]::before { content: '👩🏼‍🦳'; }
+.autoclickers button[id="farm"]::before { content: '👩🏼‍🌾'; }
+.autoclickers button[id="mine"]::before { content: '👩🏻‍🏭'; }
+.autoclickers button[id="factory"]::before { content: '👩🏻‍🔬'; }
+.autoclickers button[id="bank"]::before { content: '👩🏻‍💻'; }
+.autoclickers button[id="temple"]::before { content: '🧙🏼‍♂️'; }
+.autoclickers button[id="spaceship"]::before { content: '👨🏼‍🚀'; }
+
+.autoclickers button:hover:not(.disabled) {
+    background: #e7bc91;
+}
+
+.autoclickers button.disabled {
+    background: #d3d3d3;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Custom scrollbar width for all scrollbars, but keep default colors */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: inherit;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: inherit;
+}
+
+/* For Firefox */
+    
+.cookie {
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+    margin: auto;
+    position: absolute;
+    top: 66%; left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+    user-select: none;
+    filter: drop-shadow(8px 8px 15px rgba(139, 111, 74, 0.5));
+}
+
+.cookie:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: drop-shadow(10px 10px 18px rgba(139, 111, 74, 0.6));
+}
+
+.cookie:active {
+    transform: translate(-50%, -50%) scale(0.95);
+    filter: drop-shadow(6px 6px 12px rgba(139, 111, 74, 0.7));
+}
+
+/* Score Display Styling */
+.score-display {
+    position: absolute;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+#cookie-count {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #5d4e37;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.score-label {
+    font-size: 1.2rem;
+    color: #5d4e37;
+    margin-top: 5px;
+}
+
+#cookies-per-second {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #5d4e37;
+    margin-top: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.cps-label {
+    font-size: 1rem;
+    color: #5d4e37;
+    margin-top: 2px;
+}
+
+.save-indicator {
+    font-size: 0.8rem;
+    color: #5d4e37;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.save-indicator.show {
+    opacity: 1;
+}
+
+/* Game Controls Styling */
+.game-controls {
+    position: absolute;
+    bottom: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-btn {
+    border: none;
+    border-radius: 10px;
+    background: #f3d5b5;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #5d4e37;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background 0.2s;
+    min-width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.right-side .player-profile {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 8px;
+     margin: 24px 0 20px 0;
+}
+#player-name:focus {
+    outline: none;
+    border: 2px solid #5d4e37;
+}
+
+.control-btn:hover {
+    background: #e7bc91;
+}
+
+.control-btn:active {
+    background: #d8a679;
+}
+
+.control-btn:focus {
+    outline: none;
+}
+
+/* Visual Effects Animations */
+@keyframes cookieClick {
+    0% { 
+        transform: translate(-50%, -50%) scale(1.05); 
+        filter: drop-shadow(10px 10px 18px rgba(139, 111, 74, 0.6));
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.15); 
+        filter: drop-shadow(12px 12px 22px rgba(139, 111, 74, 0.8));
+    }
+    100% { 
+        transform: translate(-50%, -50%) scale(1.05); 
+        filter: drop-shadow(10px 10px 18px rgba(139, 111, 74, 0.6));
+    }
+}
+
+@keyframes purchaseSuccess {
+    0% { transform: scale(1); background-color: #f3d5b5; }
+    50% { transform: scale(1.05); background-color: #c8e6c9; }
+    100% { transform: scale(1); background-color: #f3d5b5; }
+}
+
+@keyframes floatingNumber {
+    0% { 
+        opacity: 1; 
+        transform: translateY(0px) scale(0.8); 
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.2);
+    }
+    100% { 
+        opacity: 0; 
+        transform: translateY(-120px) scale(0.9); 
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+*/
+/* Purchase success animation */
+.purchase-success {
+    animation: purchaseSuccess 0.5s ease-in-out;
+}
+
+/* Floating numbers */
+.floating-number {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #5d4e37;
+    pointer-events: none;
+    z-index: 1000;
+    animation: floatingNumber 1.5s ease-out forwards;
+}
+
+.floating-number.purchase {
+    color: #5d4e37;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(93, 78, 55, 0.3);
+    font-weight: 900;
+}
+
+.floating-number.upgrade {
+    color: #5d4e37;
+    font-size: 1.2rem;
+}
+
+/* Events Styling */
+.events {
+    padding: 20px;
+    border: 3px solid #b08968;
+    border-radius: 16px;
+    background: #fff8f0;
+    box-shadow: 0 4px 16px rgba(176, 137, 104, 0.1);
+    margin: 20px;
+    margin-top: 10px;
+}
+
+.events h2 {
+    color: #5d4e37;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.events-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.event-item {
+    padding: 8px 12px;
+    background: #f3d5b5;
+    border-radius: 8px;
+    border: 1px solid #b08968;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+    color: #5d4e37;
+}
+
+/* Milestone floating numbers */
+.floating-number.milestone {
+    color: #FFD700;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    animation: floatingNumber 2.5s ease-out forwards;
+}
+
+/* Cookie click animation class */
+.cookie-click {
+    animation: cookieClick 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Pulse animation class */
+.pulse {
+    animation: pulse 1s ease-in-out;
+}
+
+
