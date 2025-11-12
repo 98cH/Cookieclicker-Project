@@ -1,4 +1,5 @@
 
+
 const AUTOCLICKER_CONFIG = {
   cursor:    { name: 'Cursor',   emoji: '👆🏼',   baseCost: 15,       baseProduction: 0.1 },
   grandma:   { name: 'Grandma',  emoji: '👩🏼‍🦳', baseCost: 100,      baseProduction: 1 },
