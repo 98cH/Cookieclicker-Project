@@ -365,7 +365,8 @@ class Game {
 
   startAutoSave() {
     if (this.autoSaveInterval) clearInterval(this.autoSaveInterval);
-  this.autoSaveInterval = setInterval(() => this.saveGame(), 100); // 0.1s
+  // reduce frequency to avoid excessive localStorage writes
+  this.autoSaveInterval = setInterval(() => this.saveGame(), 5000); // 5s
   }
 
   saveGame() {
@@ -524,8 +525,9 @@ class Game {
       const id = btn.id;
       const u = this.player.upgrades[id];
       if (!u) return;
-      const requiredAutoclicker = u.targetAutoclicker;
-      const hasAutoclicker = requiredAutoclicker && this.player.autoclickers[requiredAutoclicker].owned > 0;
+  const requiredAutoclicker = u.targetAutoclicker;
+  // guard in case autoclicker key is missing (defensive)
+  const hasAutoclicker = requiredAutoclicker && this.player.autoclickers[requiredAutoclicker] && this.player.autoclickers[requiredAutoclicker].owned > 0;
       const cost = this.player.getUpgradeCost(id);
       const afford = this.player.cookies >= cost;
       if (hasAutoclicker && afford) btn.classList.remove('disabled');
