@@ -82,10 +82,14 @@ document.getElementById('restart-btn').addEventListener('click', () => {
 });
 
 // --- Autosave setup ---
+// --- Autosave setup ---
 let autosaveInterval = null;
 function startAutosave() {
     if (autosaveInterval) return;
-    autosaveInterval = setInterval(() => saveLoad.save(game, playerProfile), 100);
+    autosaveInterval = setInterval(() => {
+        saveLoad.save(game, playerProfile);
+        localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+    }, 100);
 }
 function stopAutosave() {
     if (autosaveInterval) {
@@ -93,7 +97,6 @@ function stopAutosave() {
         autosaveInterval = null;
     }
 }
-// Start de game loop via het centrale game-object
 game.startGameLoop();
 
 // Voeg event listeners en UI-updates toe aan autoclickers (na game-object!)
@@ -112,11 +115,32 @@ upgrades.forEach(upg => {
     }
 });
 
+// --- THEME OPSLAAN EN LADEN ---
+function setTheme(isDark) {
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+// Theme laden bij start
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+}
+
+// Theme-knop event (na DOM is geladen)
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('theme-btn').addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-theme');
+        setTheme(isDark);
+    });
+});
+
 // --- Start de Game ---
 function init() {
-    console.log('Initializing Cookie Clicker Game...');
-    console.log('Autoclickers loaded:', autoclickers.length);
-    console.log('Upgrades loaded:', upgrades.length);
 
     UI.initializeEventListeners(autoclickers, upgrades, findAutoclickerByName);
     Tooltips.initializeTooltips([...autoclickers, ...upgrades]);

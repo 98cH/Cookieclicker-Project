@@ -151,7 +151,7 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+    transition: transform 0.01s ease-in-out, filter 0.01s ease-in-out;
     user-select: none;
     filter: drop-shadow(8px 8px 15px rgba(139, 111, 74, 0.5));
 }
@@ -285,9 +285,60 @@ html, body {
 /* --- State Classes --- */
 
 .disabled {
-    background: #d3d3d3 !important;
+    background: #F8F0E3 !important;
     color: #888 !important;
     cursor: not-allowed !important;
     opacity: 0.6;
 }
 
+#theme-btn {
+    align-self: center;
+    margin-left: 38%;
+    margin-bottom: 24px;
+    position: static;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Dark Theme --- */
+.dark-theme .container {
+    background: #222 !important;
+}
+.dark-theme .left-side {
+    background-color: #333 !important;
+}
+.dark-theme .center {
+    background-color: #222 !important;
+}
+.dark-theme .right-side {
+    background-color: #444 !important;
+
+}
+.dark-theme .player-profile {
+    background: #444!important;
+}
+.dark-theme .emoji-choice {
+    background: #444 !important;
+    color: #fff !important;
+}
+.dark-theme #player-emoji-btn,
+.dark-theme #player-name {
+    background:#444 !important;
+    color: #fff !important;
+}
+.dark-theme .control-btn,
+.dark-theme .upgrades button,
+.dark-theme .autoclickers button {
+    background: #555 !important;
+    color: #fff !important;
+}
+.dark-theme #cookie-count,
+.dark-theme .score-label,
+.dark-theme #cookies-per-second,
+.dark-theme .cps-label {
+    color: #fff !important;
+}
+.dark-theme .cookie {
+    content: url('../img/dark.png'); 
+    filter: drop-shadow(8px 8px 15px rgba(0,0,0,0.7)) !important;
+}
