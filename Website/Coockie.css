@@ -298,6 +298,54 @@ html, body {
     position: static;
     display: flex;
     justify-content: center;
+    
+}
+.hot-drinks-challenge .drink-btn {
+    border: none;
+    border-radius: 10px;
+    background: #f3d5b5;
+    padding: 16px 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 60%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: bold;
+    color: #5d4e37;
+    margin: 6px auto;
+}
+
+.hot-drinks-challenge .drink-btn:hover:not(:disabled) {
+    background: #e7bc91;
+}
+
+.hot-drinks-challenge .drink-btn:disabled,
+.hot-drinks-challenge .drink-btn.disabled {
+    background: #F8F0E3 !important;
+    color: #888 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.hot-drinks-challenge b,
+.hot-drinks-challenge #drink-status {
+    font-size: 1.2rem;
+    color: #5d4e37;
+    margin-bottom: 20px ;
+    margin-top: 20px;
+
+}
+.hot-drinks-challenge {
+    align-self: center;
+    margin: 90px auto;
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* --- Dark Theme --- */
@@ -341,4 +389,29 @@ html, body {
 .dark-theme .cookie {
     content: url('../img/dark.png'); 
     filter: drop-shadow(8px 8px 15px rgba(0,0,0,0.7)) !important;
+}
+.dark-theme .hot-drinks-challenge {
+    background: #444!important;
+    color: #fff !important;
+}
+
+.dark-theme .hot-drinks-challenge b,
+.dark-theme .hot-drinks-challenge #drink-status {
+    color: #fff !important;
+}
+
+.dark-theme .hot-drinks-challenge .drink-btn {
+    background: #555 !important;
+    color: #fff !important;
+}
+
+.dark-theme .hot-drinks-challenge .drink-btn:hover:not(:disabled) {
+    background: #666 !important;
+    color: #fff !important;
+}
+
+.dark-theme .hot-drinks-challenge .drink-btn:disabled,
+.dark-theme .hot-drinks-challenge .drink-btn.disabled {
+    background: #222 !important;
+    color: #aaa !important;
 }

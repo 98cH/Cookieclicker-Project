@@ -82,7 +82,6 @@ document.getElementById('restart-btn').addEventListener('click', () => {
 });
 
 // --- Autosave setup ---
-// --- Autosave setup ---
 let autosaveInterval = null;
 function startAutosave() {
     if (autosaveInterval) return;
@@ -99,7 +98,7 @@ function stopAutosave() {
 }
 game.startGameLoop();
 
-// Voeg event listeners en UI-updates toe aan autoclickers (na game-object!)
+// Voeg event listeners en UI-updates toe aan autoclickers
 autoclickers.forEach(ac => {
     if (ac.buttonElement) {
         ac.buttonElement.addEventListener('click', () => ac.handleBuy());
@@ -107,7 +106,7 @@ autoclickers.forEach(ac => {
     }
 });
 
-// Voeg event listeners en UI-updates toe aan upgrades (na game-object!)
+// Voeg event listeners en UI-updates toe aan upgrades 
 upgrades.forEach(upg => {
     if (upg.buttonElement) {
         upg.buttonElement.addEventListener('click', () => upg.handleBuy(findAutoclickerByName));
@@ -131,6 +130,43 @@ if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-theme');
 }
 
+const drinkBonuses = {
+    milk: 10,
+    coffee: 5,
+    tea: 15
+};
+
+// Zet alle drink-knoppen uit bij start
+document.querySelectorAll('.drink-btn').forEach(btn => {
+    btn.disabled = true;
+    btn.addEventListener('click', () => {
+        const drink = btn.getAttribute('data-drink');
+        const statusDiv = document.getElementById('drink-status');
+        statusDiv.textContent =
+            `Good job enjoy your ${drink} and you get ${drinkBonuses[drink]} bonus cookies!`;
+        // Zet alle knoppen weer uit na keuze
+        document.querySelectorAll('.drink-btn').forEach(b => b.disabled = true);
+        if (typeof game !== 'undefined' && typeof game.addCookies === 'function') {
+            game.addCookies(drinkBonuses[drink]);
+        }
+        // Verwijder de boodschap na 5 seconden
+        setTimeout(() => {
+            statusDiv.textContent = '';
+        }, 5000);
+    });
+});
+
+// Activeer drink-knoppen na elke aankoop van een autoclicker
+autoclickers.forEach(ac => {
+    if (ac.buttonElement) {
+        ac.buttonElement.addEventListener('click', () => {
+            document.querySelectorAll('.drink-btn').forEach(btn => {
+                btn.disabled = false;
+            });
+        });
+    }
+});
+
 // Theme-knop event (na DOM is geladen)
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('theme-btn').addEventListener('click', () => {
@@ -145,8 +181,10 @@ function init() {
     UI.initializeEventListeners(autoclickers, upgrades, findAutoclickerByName);
     Tooltips.initializeTooltips([...autoclickers, ...upgrades]);
     UI.updateDisplay(autoclickers, upgrades);
-    console.log('Core game initialized (registry inline)');
+   
 }
 
 init();
 startAutosave();
+
+
