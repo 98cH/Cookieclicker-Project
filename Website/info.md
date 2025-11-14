@@ -51,14 +51,4 @@ Bestanden:
 - Tooltip- en floating-elementen gebruiken viewport-gebaseerde positionering (`fixed`) — werkt meestal correct.
 - `formatNumber` retourneert `'0'` voor 0 (designkeuze).
 
-### Korte refactor-suggesties
-1. Split concerns in modules: `player.js`, `game.js`, `ui/*.js`, `storage.js`, `constants.js`.
-2. Centraliseer cost/production tabellen in een `constants`-object.
-3. Voeg JSDoc of TypeScript-typen toe voor contracts (PlayerState, Autoclicker, Upgrade).
-4. Schrijf unit-tests voor cost-formules, buy-logic en save/load.
-5. Implementeer `showSaveIndicator()` en debounce autosave.
-
----
-
-Als je wil, kan ik nu meteen één van de refactor-stappen uitvoeren (bijv. A: JSDoc toevoegen, B: Player extraheren naar nieuw bestand, C: tests scaffolden). Kies welke stap je wilt dat ik nu uitvoer.
 
