@@ -20,14 +20,14 @@
                 <button id="spaceship-upgrade">🎂</button>
             </div>
             <div class="autoclickers"> 
-                <button id="cursor" data-name="Cursor">👆🏼 Cursor</button>
-                <button id="grandma" data-name="Grandma">👩🏼‍🦳 Grandma</button>
-                <button id="farm" data-name="Farm">👩🏼‍🌾 Farm</button>
-                <button id="mine" data-name="Mine">👩🏻‍🏭 Mine</button>
-                <button id="factory" data-name="Factory">👩🏻‍🔬 Factory</button>
-                <button id="bank" data-name="Bank">👩🏻‍💻 Bank</button>
-                <button id="temple" data-name="Temple">🧙🏼‍♂️ Temple</button>
-                <button id="spaceship" data-name="Spaceship">👨🏼‍🚀 Spaceship</button>
+                <button id="cursor" >👆🏼 Cursor</button>
+                <button id="grandma" >👩🏼‍🦳 Grandma</button>
+                <button id="farm" >👩🏼‍🌾 Farm</button>
+                <button id="mine" >👩🏻‍🏭 Mine</button>
+                <button id="factory" >👩🏻‍🔬 Factory</button>
+                <button id="bank" >👩🏻‍💻 Bank</button>
+                <button id="temple" >🧙🏼‍♂️ Temple</button>
+                <button id="spaceship" >👨🏼‍🚀 Spaceship</button>
             </div>
         </div>
         <div class="center">
@@ -39,36 +39,45 @@
             </div>
             <img src="../img/cookie.png" alt="cookie" class="cookie">
            
+          
+           
+        </div>
+        <div class="right-side">
+            <div class="player-profile">
+                <button id="player-emoji-btn">👤</button>
+                <input type="text" id="player-name" placeholder="Player Name">
+                <div id="emoji-picker">
+                    <button class="emoji-choice" >🧕🏼</button>
+                    <button class="emoji-choice" >🧕🏾</button>
+                    <button class="emoji-choice" >👩🏼</button>
+                    <button class="emoji-choice" >👩🏻</button>
+                    <button class="emoji-choice" >👩🏽</button>
+                    <button class="emoji-choice" >👨🏼</button>
+                    <button class="emoji-choice" >🧑🏻</button>
+                    <button class="emoji-choice" >👨🏾</button>
+                </div>
+            </div>
             <div class="drinks-challenge">
                 <button id="drink-coffee" class="drink-btn coffee" title="Activate Coffee Challenge">☕ Coffee</button>
                 <button id="drink-tea" class="drink-btn tea" title="Activate Tea Challenge">🍵 Tea</button>
                 <button id="drink-milk" class="drink-btn milk" title="Activate Milk Challenge">🥛 Milk</button>
             </div>
-           
-        </div>
-        <div class="right-side">
-            <div id="hearts-bg" style="position: absolute; inset: 0; z-index: 0; pointer-events: none;"></div>
-            <div class="player-profile" style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 24px 0 20px 0; position: relative; z-index: 2;">
-                <button id="player-emoji-btn" style="font-size: 3.2rem; background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">👤</button>
-                <input type="text" id="player-name" placeholder="Player Name" style="font-size: 1.1rem; text-align: center; border-radius: 8px; border: none; background: #e7bc91; color: #5d4e37; padding: 4px 12px; width: 140px;">
-                <div id="emoji-picker" style="display: none; flex-direction: row; gap: 6px; margin-top: 4px;">
-                    <button class="emoji-choice" data-emoji="🧕🏼" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">🧕🏼</button>
-                    <button class="emoji-choice" data-emoji="🧕🏾" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">🧕🏾</button>
-                    <button class="emoji-choice" data-emoji="👩🏼" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👩🏼</button>
-                    <button class="emoji-choice" data-emoji="👩🏻" style="font-size: 2.5em;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👩🏻</button>
-                    <button class="emoji-choice" data-emoji="👩🏽" style="font-size: 2.5em;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👩🏽</button>
-                    <button class="emoji-choice" data-emoji="👨🏼" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👨🏼</button>
-                    <button class="emoji-choice" data-emoji="🧑🏻" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">🧑🏻</button>
-                    <button class="emoji-choice" data-emoji="👨🏾" style="font-size: 2.5rem;background:#e7bc91; border: none; border-radius: 8px; cursor: pointer; width: 60px; height: 60px;">👨🏾</button>
+            <div class="game-controls" role="group" aria-label="Game controls">
+                <div class="controls-row">
+                    <button id="save-btn" class="control-btn" title="Save game"> Save</button>
+                    <button id="restart-btn" class="control-btn" title="Restart game"> Restart</button>
                 </div>
             </div>
            
         </div>
+
     </div>
     
+   
     <div id="game-tooltip"></div>
-    
-    
+
+  <script type="module" src="main.js"></script>
+
 </body>
 </html>
 
